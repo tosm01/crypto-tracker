@@ -19,18 +19,18 @@ resource "azurerm_resource_group" "cryptotracker_resource_group" {
   location = "Southeast Asia"
 }
 
-# 4. Create a container group
-resource "azurerm_container_group" "cryptotracker_container_group" {
-  name                = "cryptocurrencyapi"
+# 4a. Create a container group (Image from Docker Hub)
+resource "azurerm_container_group" "cryptotracker_container_group_dh" {
+  name                = "cryptocurrencyapi-dh"
   resource_group_name = azurerm_resource_group.cryptotracker_resource_group.name
   location            = azurerm_resource_group.cryptotracker_resource_group.location
 
   ip_address_type     = "Public"
-  dns_name_label      = "cryptocurrencyapi"
+  dns_name_label      = "cryptocurrencyapi-dh"
   os_type             = "Linux"
 
   container {
-    name              = "cryptocurrencyapicontainer"
+    name              = "cryptocurrencyapi-dh"
     image             = "taha12k/cryptocurrencyapi"
     cpu               = "1"
     memory            = "1"
@@ -39,5 +39,35 @@ resource "azurerm_container_group" "cryptotracker_container_group" {
       port            = 8080
       protocol        = "TCP"
       }
+    }
+}
+
+# 4b. Create a container group (Image from Azure Container Registry)
+resource "azurerm_container_group" "cryptotracker_container_group_acr" {
+  name                = "cryptocurrencyapi-acr"
+  resource_group_name = azurerm_resource_group.cryptotracker_resource_group.name
+  location            = azurerm_resource_group.cryptotracker_resource_group.location
+
+  ip_address_type     = "Public"
+  dns_name_label      = "cryptocurrencyapi-acr"
+  os_type             = "Linux"
+
+  container {
+    name              = "cryptocurrencyapi-acr"
+    image             = "cryptotracker.azurecr.io/cryptocurrencyapi"
+    cpu               = "1"
+    memory            = "1"
+
+    ports {
+      port            = 8080
+      protocol        = "TCP"
+      }
+      
+    }
+    
+    image_registry_credential {
+        server = "cryptotracker.azurecr.io"
+        username = "cryptotracker"
+        password = var.cryptotracker_container_group_acr_password
     }
 }
