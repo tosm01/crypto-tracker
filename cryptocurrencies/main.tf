@@ -54,7 +54,7 @@ resource "azurerm_container_group" "cryptotracker_container_group_acr" {
 
   container {
     name              = "cryptocurrencyapi-acr"
-    image             = "cryptotracker.azurecr.io/cryptocurrencyapi"
+    image             = var.cryptotracker_container_group_acr_image
     cpu               = "1"
     memory            = "1"
 
@@ -66,8 +66,8 @@ resource "azurerm_container_group" "cryptotracker_container_group_acr" {
     }
     
     image_registry_credential {
-        server = "cryptotracker.azurecr.io"
-        username = "cryptotracker"
+        server = var.cryptotracker_container_group_acr_server
+        username = var.cryptotracker_container_group_acr_username
         password = var.cryptotracker_container_group_acr_password
     }
 }
