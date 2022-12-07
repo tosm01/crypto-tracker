@@ -19,7 +19,12 @@ public class CoinController {
     }
 
     @GetMapping("api/v1/coins/list")
-    public List<Coin> getCoinsList() {
+    public List<CoinSimple> getCoinsList() {
         return this.coinsService.getCoinsList();
+    }
+
+    @GetMapping("api/v1/coins/list/details")
+    public List<CoinDetailed> getCoinsWithDetailsList() {
+        return this.coinsService.getCoinsWithDetailsList();
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class CoinService {
-private static final String BASE_URL = "https://api.coingecko.com/api/v3/coins";
+    private static final String BASE_URL = "https://api.coingecko.com/api/v3/coins";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -23,15 +23,30 @@ private static final String BASE_URL = "https://api.coingecko.com/api/v3/coins";
         this.objectMapper = objectMapper;
     }
 
-    public List<Coin> getCoinsList(){
+    public List<CoinSimple> getCoinsList(){
         URI url = null;
         ResponseEntity<String> response = null;
-        List<Coin> coinsList = new ArrayList<>();
+        List<CoinSimple> coinsList = new ArrayList<>();
 
         try {
             url = new URI(BASE_URL + "/list");
             response = restTemplate.getForEntity(url, String.class);
-            coinsList = objectMapper.readValue(response.getBody(), new TypeReference<ArrayList<Coin>>(){});
+            coinsList = objectMapper.readValue(response.getBody(), new TypeReference<ArrayList<CoinSimple>>(){});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return coinsList;
+    }
+
+    public List<CoinDetailed> getCoinsWithDetailsList(){
+        URI url = null;
+        ResponseEntity<String> response = null;
+        List<CoinDetailed> coinsList = new ArrayList<>();
+
+        try {
+            url = new URI(BASE_URL + "/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false");
+            response = restTemplate.getForEntity(url, String.class);
+            coinsList = objectMapper.readValue(response.getBody(), new TypeReference<ArrayList<CoinDetailed>>(){});
         } catch (Exception e) {
             e.printStackTrace();
         }
