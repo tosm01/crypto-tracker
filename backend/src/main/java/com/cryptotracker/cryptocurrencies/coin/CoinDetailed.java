@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class CoinDetailed {
-    String id;
-    String symbol;
-    String name;
+public class CoinDetailed extends Coin {
     String image;
     @JsonProperty("current_price")
     Double currentPrice;
