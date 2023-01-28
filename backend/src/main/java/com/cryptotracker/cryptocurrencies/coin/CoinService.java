@@ -105,7 +105,7 @@ public class CoinService {
         Map<String, Object> market_cap_map = (Map<String, Object>) market_data_map.get("market_cap");
         coin.marketCap = Double.valueOf(market_cap_map.get(currency).toString());
 
-        Map<String, Object> price_change_24h_map = (Map<String, Object>) market_data_map.get("price_change_24h_in_currency");
-        coin.priceChangePercentage24h = Double.valueOf(price_change_24h_map.get(currency).toString());
+        Map<String, Object> price_change_percentage_24h_map = (Map<String, Object>) market_data_map.get("price_change_percentage_24h_in_currency");
+        coin.priceChangePercentage24h = Double.valueOf(price_change_percentage_24h_map.get(currency).toString());
     }
 }
